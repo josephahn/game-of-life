@@ -31,7 +31,22 @@ $(function() {
     context.fillRect(x * cellSize, y * cellSize, cellSize, cellSize);
   };
 
-  // Attach click listener
+  // Start animation
+  var start = function() {
+    console.log('start');
+  };
+
+  // Stop animation
+  var stop = function() {
+    console.log('stop');
+  };
+
+  // Clear canvas
+  var clear = function() {
+    console.log('clear');
+  };
+
+  // Attach click listeners
   $('body').on('click', '#world', function(e) {
 
     var mouseX = e.offsetX;
@@ -41,6 +56,18 @@ $(function() {
     var cellY = Math.floor(mouseY / cellSize);
 
     fill(cellX, cellY, "#00CD00");
+  });
+
+  $('body').on('click', 'button[name=start]', function() {
+    start();
+  });
+
+  $('body').on('click', 'button[name=stop]', function() {
+    stop();
+  });
+
+  $('body').on('click', 'button[name=clear]', function() {
+    clear()
   });
 
   draw();

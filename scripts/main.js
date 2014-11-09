@@ -40,8 +40,20 @@ $(function() {
   };
 
   // Converts coordinates into string to store as key in alive object
-  var coordinates = function(x, y) {
-    return y.toString() + x.toString();
+  var encode = function(x, y) {
+    var col = '';
+    var row = '';
+    col = x < 10 ? '0' + x.toString() : x.toString();
+    row = y < 10 ? '0' + y.toString() : y.toString();
+    return row + col;
+  };
+
+  // Converts string coordinates into numbers and returns as object
+  var decode = window.decode = function(coordinates) {
+    return {
+      x: parseInt(coordinates.slice(0, 2)),
+      y: parseInt(coordinates.slice(2, 4))
+    };
   };
 
   // Fill in cell
@@ -49,15 +61,13 @@ $(function() {
     console.log(' >>> filling ' + x + ' ' + y);
     // Note: switch x and y when accessing elements in nested arrays
     if (matrix[y][x]) {
-      console.log('here1');
       context.fillStyle = '#000';
       matrix[y][x] = 0;
-      delete alive[coordinates(x, y)];
+      delete alive[encode(x, y)];
     } else {
-      console.log('here2');
       context.fillStyle = '#00CD00';
       matrix[y][x] = 1;
-      alive[coordinates(x, y)] = 1;
+      alive[encode(x, y)] = 1;
     }
     context.fillRect(x * cellSize + 1, y * cellSize + 1, cellSize - 1, cellSize - 1);
 

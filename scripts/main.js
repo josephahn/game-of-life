@@ -14,9 +14,6 @@ $(function() {
     matrix.push(row);
   }
 
-  // Object to keep track of living cells using coordinate x and y
-  var alive = {};
-
   // Draw canvas
   var draw = function() {
     var canvas = document.getElementById("world");
@@ -39,23 +36,6 @@ $(function() {
     context.stroke();
   };
 
-  // Converts coordinates into string to store as key in alive object
-  var encode = function(x, y) {
-    var col = '';
-    var row = '';
-    col = x < 10 ? '0' + x.toString() : x.toString();
-    row = y < 10 ? '0' + y.toString() : y.toString();
-    return row + col;
-  };
-
-  // Converts string coordinates into numbers and returns as object
-  var decode = window.decode = function(coordinates) {
-    return {
-      x: parseInt(coordinates.slice(0, 2)),
-      y: parseInt(coordinates.slice(2, 4))
-    };
-  };
-
   // Fill in cell
   var fill = function(x, y) {
     console.log(' >>> filling ' + x + ' ' + y);
@@ -63,16 +43,11 @@ $(function() {
     if (matrix[y][x]) {
       context.fillStyle = '#000';
       matrix[y][x] = 0;
-      delete alive[encode(x, y)];
     } else {
       context.fillStyle = '#00CD00';
       matrix[y][x] = 1;
-      alive[encode(x, y)] = 1;
     }
     context.fillRect(x * cellSize + 1, y * cellSize + 1, cellSize - 1, cellSize - 1);
-
-    console.log(alive);
-
   };
 
   // Count a cell's living neighbors
@@ -85,7 +60,7 @@ $(function() {
   // Calculate next generation
   var nextGeneration = function() {
     var next = [];
-    // loop through current alive
+    // loop through all cells
     // countNeighbors
     // if alive / dead... follow rules of game
     return next;
@@ -95,13 +70,13 @@ $(function() {
   // Start animation
   var start = function() {
     console.log('start');
-    // loop through all cells
+    // loop through all living cells
     // calculate next generation board
 
-    //alive = nextGeneration();
-    //clear();
-    //draw();
-    //loop through alive & fill cells
+    // matrix = nextGeneration();
+    // clear();
+    // draw();
+    // setInterval upate
   };
 
   // Stop animation
@@ -116,7 +91,7 @@ $(function() {
     // return to default style
     context.fillStyle = '#000';
     draw();
-    alive = [];
+    // new matrix
   };
 
   // Attach click listeners

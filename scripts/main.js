@@ -5,14 +5,22 @@ $(function() {
   var canvasSize = 512;
   var n = canvasSize / cellSize;
 
-  var matrix = [];
-  for (var i = 0; i < n; i++) {
-    var row = [];
-    for (var j = 0; j < n; j++) {
-      row.push(0);
+  var world = [];
+
+  // Generate new matrix
+  var generate = function(m, n) {
+    var matrix = [];
+    for (var i = 0; i < m; i++) {
+      var row = [];
+      for (var j = 0; j < n; j++) {
+        row.push(0);
+      }
+      matrix.push(row);
     }
-    matrix.push(row);
-  }
+    return matrix;
+  };
+
+  world = generate(n, n);
 
   // Draw canvas
   var draw = function() {
@@ -38,23 +46,39 @@ $(function() {
 
   // Fill in cell
   var fill = function(x, y) {
-    console.log(' >>> filling ' + x + ' ' + y);
+    console.log(' >>> filling ' + y + ' ' + x);
     // Note: switch x and y when accessing elements in nested arrays
-    if (matrix[y][x]) {
+    if (world[y][x]) {
       context.fillStyle = '#000';
-      matrix[y][x] = 0;
+      world[y][x] = 0;
     } else {
       context.fillStyle = '#00CD00';
-      matrix[y][x] = 1;
+      world[y][x] = 1;
     }
     context.fillRect(x * cellSize + 1, y * cellSize + 1, cellSize - 1, cellSize - 1);
   };
 
   // Count a cell's living neighbors
-  var countNeighbors = function(x, y) {
-    // check all neighboring cells assuming they are in bounds
-    // return count
+  var countNeighbors = window.countNeighbors = function(r, c) {
     var count = 0;
+    var rOptions = [r-1, r, r+1];
+    var cOptions = [c-1, c, c+1];
+
+    for (var i = 0; i < rOptions.length; i++) {
+      var row = rOptions[i];
+      for (var j = 0; j < cOptions.length; j++) {
+        var col = cOptions[j];
+        // check to see if row and column in bounds
+        if ((row >= 0 && row < n) && (col >= 0 && col < n)) {
+          // the cell itself cannot be its own neighbor
+          if (!(rOptions[i] === r && cOptions[j] === c) && world[rOptions[i]][cOptions[j]]) {
+            count++;
+          }
+        }
+      }
+    }
+
+    return count;
   };
 
   // Calculate next generation
@@ -63,6 +87,11 @@ $(function() {
     // loop through all cells
     // countNeighbors
     // if alive / dead... follow rules of game
+    for (var r = 0; r < n; r++) {
+      for (var c = 0; c < n; c++) {
+        countNeighbors(r, c);
+      }
+    }
     return next;
 
   };
@@ -70,12 +99,12 @@ $(function() {
   // Start animation
   var start = function() {
     console.log('start');
-    // loop through all living cells
-    // calculate next generation board
-
-    // matrix = nextGeneration();
-    // clear();
-    // draw();
+    var newWorld = nextGeneration();
+    clear();
+    draw();
+    console.log(newWorld);
+    // loop through newWorld & fill in living
+    // world = newWorld;
     // setInterval upate
   };
 
@@ -91,7 +120,7 @@ $(function() {
     // return to default style
     context.fillStyle = '#000';
     draw();
-    // new matrix
+    world = generate(n, n);
   };
 
   // Attach click listeners
@@ -119,5 +148,6 @@ $(function() {
   });
 
   draw();
+  window.world = world;
 
 });

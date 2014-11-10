@@ -108,16 +108,26 @@ $(function() {
 
   };
 
-  // Start animation
-  var start = function() {
-    console.log('start');
+  // Update animation
+  var update = function() {
     var newWorld = nextGeneration();
     clear();
     draw();
-    console.log(newWorld);
-    // loop through newWorld & fill in living
-    // world = newWorld;
-    // setInterval upate
+    for (var i = 0; i < n; i++) {
+      for (var j = 0; j < n; j++) {
+        if (newWorld[i][j]) {
+          fill(i, j);
+        }
+      }
+    }
+    world = newWorld;
+  };
+
+  // Start animation
+  var start = function() {
+    console.log('start');
+    update();
+    setInterval(update, 1000);
   };
 
   // Stop animation

@@ -45,17 +45,17 @@ $(function() {
   };
 
   // Fill in cell
-  var fill = function(x, y) {
-    console.log(' >>> filling ' + y + ' ' + x);
+  var fill = function(r, c) {
+    console.log(' >>> filling ' + r + ' ' + c);
     // Note: switch x and y when accessing elements in nested arrays
-    if (world[y][x]) {
+    if (world[r][c]) {
       context.fillStyle = '#000';
-      world[y][x] = 0;
+      world[r][c] = 0;
     } else {
       context.fillStyle = '#00CD00';
-      world[y][x] = 1;
+      world[r][c] = 1;
     }
-    context.fillRect(x * cellSize + 1, y * cellSize + 1, cellSize - 1, cellSize - 1);
+    context.fillRect(c * cellSize + 1, r * cellSize + 1, cellSize - 1, cellSize - 1);
   };
 
   // Count a cell's living neighbors
@@ -144,7 +144,7 @@ $(function() {
     var cellX = Math.floor(mouseX / cellSize);
     var cellY = Math.floor(mouseY / cellSize);
 
-    fill(cellX, cellY);
+    fill(cellY, cellX);
   });
 
   $('body').on('click', 'button[name=start]', function() {

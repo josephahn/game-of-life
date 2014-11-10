@@ -4,6 +4,7 @@ $(function() {
   var cellSize = 16;
   var canvasSize = 512;
   var n = canvasSize / cellSize;
+  var timer;
 
   var world = [];
 
@@ -46,7 +47,6 @@ $(function() {
 
   // Fill in cell
   var fill = function(r, c) {
-    console.log(' >>> filling ' + r + ' ' + c);
     // Note: switch x and y when accessing elements in nested arrays
     if (world[r][c]) {
       context.fillStyle = '#000';
@@ -125,19 +125,17 @@ $(function() {
 
   // Start animation
   var start = function() {
-    console.log('start');
     update();
-    setInterval(update, 1000);
+    timer = setInterval(update, 1000);
   };
 
   // Stop animation
   var stop = function() {
-    console.log('stop');
+    clearInterval(timer);
   };
 
   // Clear canvas
   var clear = function() {
-    console.log('clear');
     context.clearRect(0, 0, canvasSize, canvasSize);
     // return to default style
     context.fillStyle = '#000';

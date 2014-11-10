@@ -82,14 +82,26 @@ $(function() {
   };
 
   // Calculate next generation
-  var nextGeneration = function() {
-    var next = [];
-    // loop through all cells
-    // countNeighbors
-    // if alive / dead... follow rules of game
+  var nextGeneration = window.nextGeneration = function() {
+    var next = generate(n, n);
     for (var r = 0; r < n; r++) {
       for (var c = 0; c < n; c++) {
-        countNeighbors(r, c);
+        var neighbors = countNeighbors(r, c);
+        if (world[r][c]) {
+          if (neighbors < 2) {
+            next[r][c] = 0;
+          } else if (neighbors > 3) {
+            next[r][c] = 0;
+          } else {
+            next[r][c] = 1;
+          }
+        } else {
+          if (neighbors === 3) {
+            next[r][c] = 1;
+          } else {
+            next[r][c] = 0;
+          }
+        }
       }
     }
     return next;

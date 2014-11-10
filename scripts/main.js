@@ -1,6 +1,7 @@
 $(function() {
 
   // Constants
+  var _started = false;
   var cellSize = 16;
   var canvasSize = 512;
   var n = canvasSize / cellSize;
@@ -128,12 +129,14 @@ $(function() {
 
   // Start animation
   var start = function() {
+    _started = true;
     update();
     timer = setInterval(update, 400);
   };
 
   // Stop animation
   var stop = function() {
+    _started = false;
     clearInterval(timer);
   };
 
@@ -167,7 +170,9 @@ $(function() {
   });
 
   $('body').on('click', 'button[name=start]', function() {
-    start();
+    if (!_started) {
+      start();
+    }
   });
 
   $('body').on('click', 'button[name=stop]', function() {

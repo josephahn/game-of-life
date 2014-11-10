@@ -47,7 +47,6 @@ $(function() {
 
   // Fill in cell
   var fill = function(r, c) {
-    // Note: switch x and y when accessing elements in nested arrays
     if (world[r][c]) {
       context.fillStyle = '#000';
       world[r][c] = 0;
@@ -126,7 +125,7 @@ $(function() {
   // Start animation
   var start = function() {
     update();
-    timer = setInterval(update, 1000);
+    timer = setInterval(update, 400);
   };
 
   // Stop animation
@@ -152,6 +151,7 @@ $(function() {
     var cellX = Math.floor(mouseX / cellSize);
     var cellY = Math.floor(mouseY / cellSize);
 
+    // Note: switch x and y to work as rows and columns
     fill(cellY, cellX);
   });
 

@@ -5,6 +5,8 @@ $(function() {
   var canvasSize = 512;
   var n = canvasSize / cellSize;
   var timer;
+  var counter = 0;
+  var $counter = $('#counter');
 
   var world = [];
 
@@ -110,7 +112,7 @@ $(function() {
   // Update animation
   var update = function() {
     var newWorld = nextGeneration();
-    clear();
+    redraw();
     draw();
     for (var i = 0; i < n; i++) {
       for (var j = 0; j < n; j++) {
@@ -120,6 +122,8 @@ $(function() {
       }
     }
     world = newWorld;
+    counter++;
+    $counter.text(counter);
   };
 
   // Start animation
@@ -133,13 +137,20 @@ $(function() {
     clearInterval(timer);
   };
 
-  // Clear canvas
-  var clear = function() {
+  // Redraw board
+  var redraw = function() {
     context.clearRect(0, 0, canvasSize, canvasSize);
     // return to default style
     context.fillStyle = '#000';
     draw();
     world = generate(n, n);
+  }
+
+  // Clear canvas
+  var clear = function() {
+    redraw();
+    counter = 0;
+    $counter.text(counter);
   };
 
   // Attach click listeners
@@ -164,7 +175,7 @@ $(function() {
   });
 
   $('body').on('click', 'button[name=clear]', function() {
-    clear()
+    clear();
   });
 
   draw();

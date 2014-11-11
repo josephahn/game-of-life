@@ -3,7 +3,7 @@ $(function() {
   // Constants
   var _started = false;
   var cellSize = 16;
-  var canvasSize = 512;
+  var canvasSize = 528;
   var n = canvasSize / cellSize;
   var timer;
   var counter = 0;
@@ -29,8 +29,7 @@ $(function() {
   // Draw canvas
   var draw = function() {
     var canvas = document.getElementById("world");
-    // TODO: remove context from window
-    var context = window.context = canvas.getContext("2d");
+    var context = canvas.getContext("2d");
 
     context.fillRect(0, 0, canvasSize, canvasSize);
 
@@ -61,7 +60,7 @@ $(function() {
   };
 
   // Count a cell's living neighbors
-  var countNeighbors = window.countNeighbors = function(r, c) {
+  var countNeighbors = function(r, c) {
     var count = 0;
     var rOptions = [r-1, r, r+1];
     var cOptions = [c-1, c, c+1];
@@ -84,7 +83,7 @@ $(function() {
   };
 
   // Calculate next generation
-  var nextGeneration = window.nextGeneration = function() {
+  var nextGeneration = function() {
     var next = generate(n, n);
     for (var r = 0; r < n; r++) {
       for (var c = 0; c < n; c++) {
@@ -184,6 +183,12 @@ $(function() {
   });
 
   draw();
-  window.world = world;
+
+  // Initialize with pulsar pattern
+  // http://en.wikipedia.org/wiki/Conway's_Game_of_Life#Examples_of_patterns
+  var coordinates = [[18,15],[19,15],[20,15],[18,17],[19,17],[20,17],[17,12],[17,13],[17,14],[17,18],[17,19],[17,20],[18,10],[19,10],[20,10],[22,12],[22,13],[22,14],[22,18],[22,19],[22,20],[18,22],[19,22],[20,22],[15,12],[15,13],[15,14],[12,15],[13,15],[14,15],[12,17],[13,17],[14,17],[15,18],[15,19],[15,20],[10,18],[10,19],[10,20],[12,22],[13,22],[14,22],[12,10],[13,10],[14,10],[10,12],[10,13],[10,14]];
+  coordinates.forEach(function(arr) {
+    fill(arr[0], arr[1]);
+  });
 
 });

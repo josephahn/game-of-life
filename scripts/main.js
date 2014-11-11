@@ -11,6 +11,9 @@ $(function() {
 
   var world = [];
 
+  var canvas = document.getElementById("world");
+  var context = canvas.getContext("2d");
+
   // Generate new matrix
   var generate = function(m, n) {
     var matrix = [];
@@ -28,9 +31,6 @@ $(function() {
 
   // Draw canvas
   var draw = function() {
-    var canvas = document.getElementById("world");
-    var context = canvas.getContext("2d");
-
     context.fillRect(0, 0, canvasSize, canvasSize);
 
     for (var x = 0.5; x < canvasSize; x += cellSize) {
